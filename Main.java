@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args){
         Scanner qq = new Scanner(System.in);
-
+//        Strategy
         PaymentContext context = new PaymentContext();
 
         System.out.print("Enter the payment amount: ");
@@ -41,5 +41,24 @@ public class Main {
                 return;
         }
         context.pay(amount);
+        System.out.println();
+
+//        Observers
+        CurrencyExchange exchange = new CurrencyExchange();
+
+        IObserver app = new MobileAppObserver();
+        IObserver web = new WebsiteObserver();
+        IObserver analytics = new AnalyticsObserver();
+
+        exchange.addObserver(app);
+        exchange.addObserver(web);
+        exchange.addObserver(analytics);
+
+        exchange.setRate("USD", 470.25);
+        System.out.println();
+        exchange.setRate("EUR", 495.10);
+        System.out.println();
+        exchange.removeObserver(analytics);
+        exchange.setRate("BTC", 27000.0);
     }
 }
